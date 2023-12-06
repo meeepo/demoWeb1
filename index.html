@@ -3,22 +3,196 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Single HTML File Example</title>
+
+    <style>
+        .progress-bar {
+            height: 30px;
+            background-color: #f2f2f2;
+            overflow: hidden;
+
+            position: relative;
+
+        }
+
+        .progress {
+            width: 0%;
+            height: 100%;
+            background-color: #4caf50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: relative;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .progress-remaining {
+            height: 100%;
+            background-color: #a3bbd3;
+
+        }
+
+        .progress-title {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .process-item {
+            margin: 10px;
+            box-shadow: 3px 3px 5px 2px rgb(4 7 104 / 30%);
+        }
+    </style>
 </head>
-<style>
-</style>
 
 <body>
-    <h1>Hello World!</h1>
-    <p>This is an example of a single HTML file that includes CSS and JavaScript.</p>
-    <a href="https://www.baidu.com/">baidu1</a>
-    <a href="https://www.baidu.com/">baidu2</a>
-    啊啊啊
+
+    <div class="process-item" id="year">
+        <div class="progress-title"></div>
+        <div class="progress-bar">
+            <span class="progress-text"></span>
+            <div class="progress">
+            </div>
+            <div class="progress-remaining">
+            </div>
+        </div>
+    </div>
+
+    <div class="process-item" id="dayOfYear">
+        <div class="progress-title"></div>
+        <div class="progress-bar">
+            <span class="progress-text"></span>
+            <div class="progress">
+            </div>
+            <div class="progress-remaining">
+            </div>
+        </div>
+    </div>
+
+    <div class="process-item" id="dayOfMonth">
+        <div class="progress-title"></div>
+        <div class="progress-bar">
+            <span class="progress-text"></span>
+            <div class="progress">
+            </div>
+            <div class="progress-remaining">
+            </div>
+        </div>
+    </div>
+    <div class="process-item" id="dayOfWeek">
+        <div class="progress-title"></div>
+        <div class="progress-bar">
+            <span class="progress-text"></span>
+            <div class="progress">
+            </div>
+            <div class="progress-remaining">
+            </div>
+        </div>
+    </div>
+    <div class="process-item" id="hours">
+        <div class="progress-title"></div>
+        <div class="progress-bar">
+            <span class="progress-text"></span>
+            <div class="progress">
+            </div>
+            <div class="progress-remaining">
+            </div>
+        </div>
+    </div>
+    <div class="process-item" id="minute">
+        <div class="progress-title"></div>
+        <div class="progress-bar">
+            <span class="progress-text"></span>
+            <div class="progress">
+            </div>
+            <div class="progress-remaining">
+            </div>
+        </div>
+    </div>
 
 
+    <div class="process-item" id="second">
+        <div class="progress-title"></div>
+        <div class="progress-bar">
+            <span class="progress-text"></span>
+            <div class="progress">
+            </div>
+            <div class="progress-remaining">
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        var progressBar = document.querySelector('.progress-bar');
+        var width = progressBar.offsetWidth;
+
+
+
+        function setSec(id, duration, target, title) {
+            var secItem = document.querySelector(id);
+            var secTitle = secItem.querySelector('.progress-title');
+            secTitle.textContent = title;
+            var secProcText = secItem.querySelector('.progress-text');
+            var secProc = secItem.querySelector('.progress');
+            var secProcRem = secItem.querySelector('.progress-remaining');
+
+            secProcText.textContent = duration + '/' + target;
+            var progressPercentage = duration / target * 100
+            var progressWidth = (progressPercentage / 100) * width;
+
+            secProc.style.width = progressWidth + 'px';
+            secProcRem.style.width = (width - progressWidth) + 'px';
+        }
+
+        function curMonthHaveDays() {
+
+            var currentTime = new Date();
+            var currentYear = currentTime.getFullYear();
+            var currentMonth = currentTime.getMonth();
+            var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            return daysInMonth;
+        }
+        function refreshall() {
+
+            var currentTime = new Date();
+
+            var milliseconds = currentTime.getMilliseconds();
+            var seconds = currentTime.getSeconds();
+            var minutes = currentTime.getMinutes();
+            var hours = currentTime.getHours();
+            var dayOfMonth = currentTime.getDate();
+            var dayOfWeek = currentTime.getDay();
+            var dayOfYear = Math.floor((currentTime - new Date(currentTime.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+            var year = currentTime.getFullYear();
+
+
+            setSec('#second', seconds, 60, '秒');
+            setSec('#minute', minutes, 60, '分');
+            setSec('#hours', hours, 24, '小时');
+            setSec('#dayOfWeek', dayOfWeek, 7, '本周第几天');
+            setSec('#dayOfMonth', dayOfMonth, curMonthHaveDays(), '本月第几天');
+            setSec('#dayOfYear', dayOfYear, 365, '今年第几天');
+            setSec('#year', year %100, 100, '世纪');
+        }
+        refreshall();
+        var timer23 = setInterval(function () {
+            refreshall();
+
+
+
+
+        }, 1000);
+
+
+
+    </script>
 </body>
-<script>
-    alert("gg啊啊啊")
-</script>
 
 </html>
